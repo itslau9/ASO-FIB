@@ -1,0 +1,415 @@
+﻿ADMINISTRACIÓ DE SISTEMES OPERATIUS
+3er Parcial, 31 maig de 2017
+L'examen és individual
+Responeu en l'espai assignat
+Poseu COGNOMS, NOM (per aquest ordre)
+L'examen és sense llibres ni apunts
+És obligatori justificar totes les respostes
+Temps: 2 hores (No es pot sortir abans de mitja hora)
+
+
+Pregunta 1 – Xarxes (3 Punts)
+
+
+Una empresa es dedica al hosting de pàgines web. Per això disposa d’un data center on hi ha 50 màquines i un load balancer per distribuir la càrrega. A banda, l’empresa té dos departaments diferents:
+
+
+– El departament de IT, que consta de 15 empleats i 15 PC.
+– El departament d'administració que té 10 empleats amb 10 PC.
+L’empresa disposa del rang d’IP 13.43.123.0/29, i ofereix els següents serveis als seus clients:
+
+
+– Hosting Web (com s’ha dit) - Gestor de Bases de dades (PostgreSQL)
+– DNS - CIFS
+– Web Corporativa - SSH
+– Impressió (compartit) - VPN
+– Repositori de codi GIT
+
+
+Es demana:
+1. Determina quins serveis dels esmentats anteriorment serien públics i quins privats. (0.25 Punts)
+
+
+hosting web -> public(?)
+sql -> privat
+web -> public
+dns -> privat
+cifs-> privat
+ssh -> public
+impressio -> privat
+vpn -> publiv
+git -> public(?)
+
+
+
+
+
+
+
+
+2. Assigna les IPs que consideres apropiades a tota l’empresa. No cal que dibuixis la xarxa aquí.
+(0.25 Punts)
+
+
+departament it -> 10.0.0.0/24:
+* users-> 10.0.0.3 … 10.0.0.17
+* router -> 10.0.0.1
+* switch -> 10.0.0.254
+
+
+
+
+departament admin -> 10.0.1.0/24
+* users-> 10.0.1.3 …. 10.0.1.8
+* router -> 10.0.1.1
+* switch -> 10.0.1.254
+servers publics -> 13.43.123.0/29
+* router-> 13.43.123.1
+* servers -> 13.43.123.2 …. 13.43.123.6(?)
+* switch -> 13.43.123.7
+
+
+3. Indica com estructuraries la xarxa del Data Center per tal de poder donar servei als clients. Pots suposar també que els serveis de l’empresa també estan al mateix data center. L’estructura de xarxa ha de reflectir on hi haurà els serveix públics i els privats. No cal que posis els departaments ni el firewall a aquesta resposta. Justifica la resposta. (0.5 Punt)
+
+
+
+
+
+
+
+
+
+
+4. Ara indica la xarxa dels departaments i com es connecta a la de la pregunta anterior. (0.5 Punts)
+
+
+
+
+
+
+
+
+
+
+
+
+5. Indica de forma justificada com configuraries el firewall (o firewalls) i on l'ubicaries per poder oferir un bon nivell de seguretat a l’empresa: (0.5 Punts)
+
+
+Configuraria el firewall al router directament, millor que a cada una de les interficies
+
+
+Internet - servers publics -> permet entrada al serveis publics nomes
+Publics - internet -> permet sortida de serveis establerts i Internet als servers
+
+
+Internet-privats -> Permet unicament a serveis ja establerts
+Privats - internet -> Permet sortida a tots usuaris
+
+
+
+
+
+
+6. Descriu quina funcionalitat realitza el servei de VPN que té l’empresa. Justifica la resposta.(0.5 Punts)
+
+
+Servei per crear connexions remotes segures amb la creació d’un tunel i ip virtuals per obtenir seguretat i privacitat.
+
+
+
+
+
+
+7. Creus que utilitzar tècniques de virtualització podria aportar algun avantatge a l’empresa. Justifica la resposta. (0.5 Punts)
+
+
+JAJAJAJJAJAJAJAJJAJAJAJJAJAJJAJAJAA
+
+
+
+
+Pregunta 2 – Backups (2 punts)
+1. Amb l’empresa de la pregunta anterior es vol muntar un sistema de backups. Es volen fer backups de:
+
+
+◦ L’espai compartit de fitxers. Ocupa 2TB. Amb un 2% de canvis setmanals
+◦ Configuració dels servidors. Ocupa 30Mb. Amb un 0% de canvis setmanals
+◦ Base de dades. Ocupa 500GB. Amb un 2% de canvis setmanals.
+◦ Zona de Hosting. Ocupa 5TB. Amb un 15% de canvis setmanals.
+◦ Repositori de codi
+
+
+Determina quin hardware compraries per poder realitzar els backups. Ha de quedar clar el medi, i la mida. Justifica la resposta. (0.5 Punts)
+
+
+
+
+
+
+
+
+
+
+
+
+2. Ara determina la política de backups que faries considerant el hardware que has comprat. Ha d’especificar com a mínim: Tipus de backup, Medi on es fa el backup, freqüència de còpies. No fa falta que indiquis la política d’expiració (0.75 Punts)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3. Indica la política d’expiració dels backups considerant la política definida anteriorment i el hardware del que disposes. (0.75 Punts)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Pregunta 3 – Teoria (2 punts)
+1. Quin efecte té sobre el rendiment d’un equip tenir un Load Average més gran que 1? Justifica la resposta (0.5 Punt)
+
+
+Ningun, ja que significa que hi ha mes d’un proces competin per cpu. Si tenim un pc amb 4 cores o amb 8. no suposa ningun problema.
+
+
+
+
+ 2. Quin problema de rendiment implica tenir un temps de Wait molt elevat? (0.5 Punts)
+
+
+
+
+
+
+
+
+
+
+3. Ara defineix la memòria de Buffers i Cache tot indicant quin ús se'n fa i quines característiques té.
+(0.5 Punts)
+
+
+
+
+
+
+
+
+
+
+
+
+4. En un entorn on s’utilitza la virtualització. Indica què són i per què és convenient utilitzar gestors de
+màquines virtuals. (0.5 Punts)
+
+
+Los gestores de máquinas virtuales son partes de software que crean, gestionan y supervisan las máquinas virtuales. Para recopilar información es necesario configurar los gestores de máquinas virtuales con el fin de calcular correctamente el consumo de licencias en sus máquinas virtuales
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Pregunta 4 – Test (3 punts)
+Respon les següents preguntes marcant la casella correcta. Hi ha una i només una resposta vàlida per pregunta.
+Cada resposta correcta val 0.5 punts. LES RESPOSTES INCORRECTES RESTEN 0.25 punts. Les no contestades no puntuen.
+
+
+
+
+1. Donada la següent situació:
+rserral@asoserver:/shared$ ls -Rla
+.:
+total 18
+dr-xrwxr-x 4 rserral student 4096 Oct 11 10:59 .
+drwxr-xr-x 12 root root 4096 Oct 11 10:59 ..
+drwxrwxr-- 2 rserral student 4096 Oct 11 11:18 d1
+./d1:
+total 8
+drwxrwxr-- 2 rserral student 4096 Oct 11 11:18 .
+dr-xrwxr-x 4 rserral student 4096 Oct 11 10:59 ..
+-r-xr-xr-- 1 student rserral 6 Oct 11 11:19 f2
+-r--r--r-- 1 student rserral 3451 Oct 11 11:00 f1
+Executem: student@asoserver:/shared$ rm -rf d1
+
+
+□ a) No podrà fer-ho, ja que student no pot escriure a d1/f2, per tant no podrà esborrar el directori
+□ b) Ho farà sense problemes, ja que té permís d’escriptura al directori/shared i al d1
+□ c) No podrà fer-ho, ja que no pot escriure a f1.
+
+
+c)
+
+
+
+
+2. Donades les condicions de la pregunta anterior, què passa si executem:
+student@asoserver:/shared$ echo Hello World > d1/f3
+□ a) No funcionaria ja que student no té suficients permisos a d1
+□ b) No funcionaria però si ho fés rserral si que aniria bé
+□ c) Si que funcionaria
+
+
+c)
+
+
+
+
+3. Quan un sistema té manca de memòria per culpa d’un sol procès:
+□ a) No pot passar, el mateix sistema mai permetrà que un sol procès utilitzi tots els recursos
+□ b) No cal fer res, el kernel gestionarà sol la situació matant el procès
+□ c) Una opció a considerar és matar-lo directament per evitar swapping
+
+
+
+
+c)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+4. Un administrador vol verificar si seu sistema és segur. Quina primera aproximació és la bona:
+□ a) Utilitza un port scanner com netstat des de la xarxa local i la remota per validar el firewall
+□ b) Utilitza un port scanner des d’una xarxa remota per veure el que veuria un atacant
+□ c) No cal fer res més que configurar un firewall
+
+
+b)
+
+
+
+
+
+
+5. LVM és una forma de virtualització de l’espai de disc
+□ a) Si, però no permet la creació de particions
+□ b) Cert però només si es té més d’un disc
+□ c) Cert en qualsevol cas
+
+
+
+
+
+
+c)
+
+
+
+
+
+
+6. En referència al sistema d’impressió
+□ a) En la majoria de sistemes Linux i Apple es diu CUPS
+□ b) En Linux és farragós i extremadament complicat de configurar
+□ c) Les impressores en xarxa no estan suportades en Linux per manca de compatibilitat
+
+
+a)

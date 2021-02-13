@@ -1,0 +1,371 @@
+﻿upc
+
+
+Responeu en l'espai assignat
+Poseu COGNOMS, NOM (per aquest ordre)
+L'examen es sense llibres ni apunts
+És obligatori justificar totes les respostes
+Temps: 2 hores (No es pot sortir abans de mitja hora)
+
+
+Pregunta 1 – Xarxes (4 Punts)
+
+
+Una empresa te una xarxa com la que es mostra a la figura:
+
+
+
+
+ https://i.gyazo.com/54ceaf848e2405508ae908eb63a4fea0.png 
+
+L'empresa esta dividida en dos departaments;
+– El departament de direccio consta de 15 PC.
+– El departament d'administracio te 10 PC.
+No disposem de cap adreca IP publica, mes que la del propi router (17.145.223.65), i l'empresa ofereix els seguents serveis:
+
+
+– Publics
+– DNS - CIFS
+– Web - SSH
+– Privats
+– NFS (un per departament) - Impressio (compartit)
+– Intranet (un per departament) - FTP (compartit)
+
+
+Es demana:
+1. Indica com estructuraries la xarxa per tal de poder garantir la separacio dels dos departaments i dels serveis publics. Caldria afegir hardware nou?, en cas afirmatiu indica on i quin. (0.75 Punt)
+
+
+Obviament 2 switches per dividir entre els 2 departaments les xarxes propies i els servers privats. 
+
+
+Pol : Pels serveis públics realitzaria un DMZ i per tot el privat realitzaria una protecció per firewall. Per a la separació dels departaments s’hauria d’afegir un switch per a poder separar-los.
+
+
+2. Assigna les IPs que consideres apropiades a les estacions de treball dels usuaris. Pots fer-ho directament a la figura de la pregunta anterior. (0.5 Punts)
+
+
+
+
+Departament direccio : 10.0.0.0/24 --->  10.0.0.3 ….. 10.0.0.17
+Departament admin : 10.0.1.0/24 ----> 10.0.1.3 ….. 10.0.1.12
+Interficies del router : 
+-fa0/0 (admin) -> 10.0.1.1
+-fa0/1 (direccio) -> 10.0.0.1
+-fa0/2 (public) ->17.145.223.65
+Switches: 
+        -admin -> 10.0.1.254
+        -direccio -> 10.0.0.254
+Servidors:
+* servidor privat admin : 10.0.0.2
+* servidor privat direccio: 10.0.1.2
+
+
+Jo simplificaria molt, no posaria interfícies, i el servidor públic cal que sigui privada, el que és un @IP pública és la del router
+No entenc per què tens 2 punts de conexió amb cada departament, hauria de ser una interfície del router per  admin/direcció i llavors el switch. 
+
+
+Departament direcció (15pcs ) : 10.0.1.0/24 --->  10.0.1.3 ….. 10.0.0.18
+Departament admin (10pcs) : 10.0.2.0/24 ----> 10.0.2.3 ….. 10.0.2.12
+Servidors:
+* servidor privat admin : 10.0.1.2
+* servidor privat direccio: 10.0.2.2
+* servidor public: 10.0.3.2
+
+
+3. Indica a la figura quin servidor contindria cada servei, i explica aqui com els configuraries (a quina xarxa els posaries). (0.75 Punts)
+
+
+
+
+Servidor 1 -> Privats per xarxa direccio
+Servidor 2 -> Privats per xarxa admin
+Servidor 3 -> Publics de l’empresa
+
+
+
+
+
+
+
+
+4. Indica de forma justificada com configuraries el firewall (o firewalls) i on l'ubicaries per poder complir amb les seguents restriccions: (0.5 Punts)
+
+
+Configuraria el firewall al router directament, millor que a cada una de les interficies
+
+
+Internet - servers publics -> permet entrada al serveis publics nomes
+Publics - internet -> permet sortida de serveis establerts i Internet als servers
+
+
+Internet-privats -> Permet unicament a serveis ja establerts
+Privats - internet -> Permet sortida a tots usuaris
+
+
+
+
+
+
+
+
+5. Se'ns demana que tots els comercials puguin accedir als serveis privats amb el seu portatil quan estan fora de l'empresa. Descriu que faries per permetre-ho i les implicacions de seguretat al sistema. (0.5 Punts)
+
+
+IMPLEMENTAR UNA PUTA VPN 
+SSH a fondu
+
+
+
+
+
+
+
+
+6. Dels serveis publics que s’ofereixen, indica quins consideres que seria millor nomes oferir internament. Justifica la resposta. (0.5 Punts)
+
+
+
+
+DNS seria millor que fos privat, a no ser que la xarxa formi part de la jerarquia DNS i sigui una autoritat.
+
+
+
+
+
+
+7. Indica quin dels serveis dels que disposa l'empresa li permetria a l'administrador balancejar la carrega entre els tres servidors de forma senzilla. Justifica la resposta. (0.5 Punts)
+
+
+
+
+
+
+NI ZORRA DIRIA QUE ES CIFS QUE ES PER COMPARTIR FITXERS PERO NI IDEA
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Pregunta 2 – Usuaris i permisos (3.75 punts)
+
+
+1. Volem crear un usuari aso (1005) que pertanyi als grups: users (100), adm (5), disk (6) amb password Awelkfv36.:WE. L’usuari utilitzara un shell /usr/bin/zsh. 
+
+
+
+
+Indica quines bases de dades es veurien afectades i de quina manera (no fa falta que xifris el password :-) ) (0.5 Punts)
+Nota: Has de posar tots els camps de tots els fitxers que es veuen afectats. L’ordre dels camps no es rellevant.
+
+
+/etc/passwd -> aso:x:1005:100:aso rules!:/usr/bin/zsh:/home/aso
+/etc/group ->
+                - adm:x:5:aso
+                - users:x:100:aso
+                -disk:x:6:aso
+/etc/shadow -> aso:contrasenyahasheadaxddd:
+
+
+VA PRIMER EL HOME DESPRÉS EL SHELL!! I què és aso rules! ?? A hosti no és rellevant jajaja 
+
+
+2. Sabem que la maquina esta connectada a traves del port serie (/dev/ttyS1) a un sismograf, i necessitem que l’usuari aso de l’apartat anterior pugui accedir al dispositiu per poder configurar-lo i per poder llegir els resultats de l’aparell. Indica quins canvis hauries de realitzar per poder fer el que es demana. (0.5 Punts)
+
+
+
+
+
+
+
+
+
+
+
+
+3. L’usuari aso ens diu que el sistema es queixa que no queda espai a la particio /home, pero ell soste que si hi ha espai. Per demostrar-ho ens passa la seguent sortida.
+
+
+aso:~$ df -h /home
+Filesystem            Size   Used Avail Use% Mounted on
+/dev/nvme0n1p6 786G   784G   2G   99% /home
+
+
+Discuteix el motiu pel qual l’usuari es queixa. (respon a la pagina seguent) (0.5 Punts)
+
+
+
+
+L’usuari es queixa ja que solament queden 2 GB disponibles de espai al directori /home.
+
+
+Realment si que hi ha espai de disk, els 2GB disponibles que mostra la comanda, pero, per defecte, el sistema deixa un estai de seguretat entre particions de 2048bytes :-)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+4. Decidim ampliar el /home comprant un altre disc (/dev/sda). Indica com inicialitzaries el disc amb una particio i sistema de fitxers ext4: (0.5 Punts)
+
+
+
+
+fdisk /dev/sda
+n
+p
+fsector - lsector
+w
+
+
+mkfs -t ext4 /dev/sda1
+
+
+mount /dev/sda1 /home
+
+
+
+
+
+
+5. Volem separar els usuaris en dos departaments: /home/dpt1 → /dev/nvme0n1p6 i /home/dpt2 → Particio creada anteriorment. Indica quins passos seguiries, assumint que al dpt2 hi van tots els usuaris que l’username comenca per a per fer l’esmentada separacio: (0.75 Punt)
+
+
+
+
+
+
+crear home/dpt1 i /home/dpt2
+mount /dev/nvme0n1p6  /home/dpt1 
+mount /dev/sda1 /home/dpt2
+canviar /etcpasswd buscant els usuaris q comencen per a i assignarlis nou home
+canviar etc/fstab
+
+
+
+
+
+
+
+
+6. Indica la funcionalitat de la crida al sistema setuid. (0.5 Punts)
+
+
+Serveix per poder executar commandes amb permisos d’un altre usuari.
+
+
+
+
+
+
+
+
+7. Quin es el motiu pel que el fitxer /etc/passwd ha de poder ser llegit per tots el usuaris del sistema? (0.5 Punts)
+
+
+Per a que tots els usuaris coneixen el seu uid, gid, el home que els pertoca,etcc
+
+
+Per què a l’hora d’executar un shell, pugui saber quin toca per cada usuari podria ser que un tingues un /bin/bash o que algu altre tingues un /bin/tcsh
+
+
+
+
+
+
+
+
+Pregunta 3 – Teoria (2.25 punts)
+
+
+1. Descriu que es un Backup Incremental Invers, quines restriccions te i quins avantatges respecte a un Backup Total i un Backup Incremental (0.5 Punt)
+
+
+Incremental invers es aquell backup que fa una copia de lu que no ha canviat al nou backup i deixa tot lo que ha canviat en el backup anterior. 
+
+
+Es mes rapid de restaurar i ocupa menys espai. Nomes funciona en disc
+
+
+
+
+
+
+
+
+2. Per quin motiu moure un fitxer dins d’un mateix sistema de fitxers no requereix permis de lectura sobre el fitxer? (0.5 Punts)
+
+
+
+
+Nomes requereix permis de escritura als directoris on es vol moure.
+
+
+Perquè l’unic que estem realitzan és canviar els apuntadors al inode (fitxer) que estem volem moure. 
+
+
+
+
+3. Defineix que es el Load Average teoricament i quins limits te. (0.25 Punt)
+
+
+
+
+Nº de processos que estan competin per la cpu en 1 min, 5 min i 15 min. 
+Limit -> numero max de procesos que puede crear el sistema
+
+
+
+
+
+
+
+
+4. Ara defineix la memoria de Buffers i Cache tot indicant quin us se'n fa i quines caracteristiques te.(0.5 Punts)
+
+
+
+
+Una guarda metadades i l’altra guarda el necessari per al sistema
+
+
+
+
+
+
+
+
+
+
+
+
+5. Quines principals diferencies hi ha entre Infrastructure as a Service (IaaS) i Platform as a Service (PaaS). (0.5 Punts)
+
+
+LLORANDO NI `PUTA IDEA XDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
+
+
+JAJAJAJAJAJAJAJA SAME HERE

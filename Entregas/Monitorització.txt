@@ -1,0 +1,14 @@
+Responeu les següents preguntes sobre monitorització:
+
+Per la comanda 'ps', determineu quines opcions a la línia de comandes s'han de fer servir per poder veure una sortida "a mida" que contingui: username de l'usuari que està executant el procés, PID, processador en el que ha corregut, estat d'execució i arguments.
+
+	ps -eo user,pid,psr,state,args
+
+És possible amb aquesta sortida determinar quins són en cada moment els processadors que estan executant un procés d'usuari?, i quin és aquest procés?
+
+	Si ja que tenim una columna (PSR) que indica quin processador executata el procés i en la columna COMMAND o args pots veure el nom
+
+A la comanda top, esbrineu quina opció interactiva permet visualitzar els processadors, juntament amb els processos que cadascun està executant
+
+	Prement la tecla 1
+	
